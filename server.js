@@ -51,6 +51,13 @@ io.on('connection', (socket) => {
       room_people.push(1);
       join=true;
       color="black";
+      socket.emit('assignRoom',{
+        join: join,
+        status: 1,
+      });
+      socket.emit('assignColor',{
+        color: color,
+      })
     }
     else{
       var index=rooms.indexOf(data.roomNum);
@@ -58,19 +65,22 @@ io.on('connection', (socket) => {
         room_people[index]=2;
         join=true;
         color="white";
-        sockets[0].emit('assignRoom',{
+        io.emit('assignRoom',{
           join: join,
-          color: "black",
+          status: 2,
         });
+        socket.emit('assignColor',{
+          color: color,
+        })
       }
       else{
         join=false;
+        socket.emit('assignRoom',{
+          join: join,
+          status: 3,
+        });
       }
     }
-    socket.emit('assignRoom',{
-      join: join,
-      color: color,
-    });
   });
 
   socket.on('disconnect', () => {

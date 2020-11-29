@@ -95,11 +95,11 @@
                     });
             }
             socket.on('assignRoom',(data)=>{
-                if(data.join==false){
+                if(data.join==3){
                     document.getElementById("joinNote").innerHTML="Join failed, cannot join a full room.";
                 }
                 else{
-                    if(data.color=="black"){
+                    if(data.color==1){
                         color="black";
                         document.getElementById("joinNote").innerHTML="Joined successfully, waiting for the second player.";
                     }
@@ -109,6 +109,9 @@
                         start=true;
                     }
                 }
+            })
+            socket.on('assignColor',(data)=>{
+                color=data.color,
             })
             // drwa stone and fill color;
             function drawStone(x,y,color){
