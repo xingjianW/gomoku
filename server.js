@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
         join=false;
       }
     }
-    io.emit('assignRoom',{
+    socket.emit('assignRoom',{
       join: join,
       color: color,
     });
