@@ -1,0 +1,23 @@
+{
+  "name": "gomoku",
+  "version": "1.0.0",
+  "description": "An online gomoku game for my full-stack web course.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xingjianW/gomoku.git"
+  },
+  "author": "Xingjian Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xingjianW/gomoku/issues"
+  },
+  "homepage": "https://github.com/xingjianW/gomoku#readme",
+  "dependencies": {
+    "socket.io": "^3.0.3"
+  }
+}

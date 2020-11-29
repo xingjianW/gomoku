@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Gomoku</title>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <style>
+            #board{
+                display:block;
+                margin:auto;
+                box-shadow:-2px -2px 2px white,5px 5px 5px grey;
+                border-radius: 7px;
+                cursor: pointer;
+                /*background-color: yellow;*/
+            }
+
+            button{
+                background-color: yellow;
+                line-height: 40px;
+                font-size: 20px;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Gomoku</h1>
+        <canvas id="board" width="600px" height="600px">  
+        </canvas>
+        <div>
+            <button id="regret">Regret</button>
+            <button id="chessAgain">Again</button>
+            <button id="exit">Exit</button>
+            <button id="getConnection">connection</button>	
+        </div>
+        <script>
+            const socket=io.connect('http://localhost:5000');
+
+            //  checkerboard
+            function checkerboard(){
+                var getBoard = document.getElementById("board");
+                var ctx = getBoard.getContext("2d"); 
+                ctx.strokeStyle="black";              
+                //draw board.   for each boxes, height = width = 40
+                window.onload = function(){   
+                    // horizontal line            
+                    for(var i=0;i<15;i++){
+                        ctx.beginPath(); 
+                        ctx.moveTo(20,20+40*i);          
+                        ctx.lineTo(580,20+40*i);           
+                        ctx.stroke();  
+                    }        
+                    // vertical line              
+                    for(var i=0;i<15;i++){
+                        ctx.beginPath(); 
+                        ctx.moveTo(20+40*i,20);
+                        ctx.lineTo(20+40*i,580);
+                        ctx.stroke();
+                    }
+                }
+            }
+            // background for checkerboard
+            function Background(){
+                var getimg = document.getElementById("board");
+                var ctx = getimg.getContext("2d"); 
+            
+                var boardBack = new Image();
+                boardBack.src = "images/back.png";
+                boardBack.onload = function(){
+                ctx.drawImage(boardBack, 0, 0,600,600);
+                } 
+            }
+
+            checkerboard();
+            Background();
+            // stone; include color and click event;
+            var getStone = document.getElementById("board");
+            var ctx = getStone.getContext("2d");
+            var changeColor = 0;    // use this to count the step and change color;
+            //biuld a array to store stone and if it = 1, means it's has stone
+            var map = [];
+            for(var i = 0; i < 15; i++){
+                map[i] = [];
+                for(var j = 0; j < 15; j++){
+                    map[i][j] = 0;
+                }
+                //console.log('test');
+            }
+            // drwa stone and fill color;
+            function drawStone(x,y,color){
+                //var color;
+                ctx.beginPath();
+                //center of stone((x,y),radius,begin,end)
+                ctx.arc(20+40*x,20+40*y,13,0,2*Math.PI)       
+                ctx.stroke();
+                ctx.closePath();
+                ctx.fillStyle = color; 
+                ctx.fill();
+            }
+            // click event, and avoid put a stone on same position
+            getStone.onclick=function(e){
+                //console.log('e/test');
+                var x =(e.offsetX/40)|0;
+                var y = (e.offsetY/40)|0;
+                // ---------
+                if(map[x][y] == 0){
+                    if(changeColor%2 == 0){
+                        drawStone(x,y,'black'); 
+                        map[x][y]= 1;
+                    } else {
+                        drawStone(x,y,'white'); 
+                        map[x][y]= 2;
+                    }
+                    //judgwin();
+                    
+                    changeColor++;
+                    socket.emit('clk', {
+                        pi: x,
+                        pj: y,
+                        color: changeColor--,
+                    });
+                }
+            }
+            function judgwin(x,y,color){
+                //alert('winer!');
+                var count = 0;
+                for(var i = 0; i < 5; i++){
+                    if(map[x][y+i]== color){
+                        count++;
+                    } else {
+                        break;
+                    }
+                }
+                console.log(count);
+            }
+            socket.on('clk', function (data) {
+                    if(data.color%2 == 0){
+                        drawStone(data.pi,data.pj,'black'); 
+                        map[data.pi][data.pj]= 1;
+                    } else {
+                        drawStone(data.pi,data.pj,'white'); 
+                        map[data.pi][data.pj]= 2;
+                    }
+                    changeColor++;
+            });
+            /*
+            function playRule(){
+                var rule = document.getElementById("board");
+                var ctx = rule.getContext("2d");
+            }
+            */
+
+        </script>
+    </body>
+</html>
+
+
