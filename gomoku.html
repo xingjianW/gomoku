@@ -206,17 +206,18 @@
                 //     }
                 // }
                 // judge if the vertical connect 5 or not
+                count=-1;
                 for (var i = 4; i >= 0; i--) {
                     for (var j = 0; j <= 4; j++) {
                         var abscissa = x;
                         var ordinate = ((y - i) + j);
 
                         if (ordinate < 0)
-                            break
+                            break;
                         if (ordinate > 14)
-                            break
+                            break;
                         if (map[abscissa][ordinate] == color) {
-                            count++
+                            count++;
                             if (count >= 5) {
                                 //alert("The " + color + " player won the game");
                                 return true;
