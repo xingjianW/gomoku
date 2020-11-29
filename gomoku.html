@@ -288,11 +288,11 @@
             socket.on('clk', function (data) {
                     if(data.color == "black"){
                         drawStone(data.pi,data.pj,'black'); 
-                        map[data.pi][data.pj]= color;
+                        map[data.pi][data.pj]= data.color;
                         curTurn="white";
                     } else {
                         drawStone(data.pi,data.pj,'white'); 
-                        map[data.pi][data.pj]= color;
+                        map[data.pi][data.pj]= data.color;
                         curTurn="black";
                     }
             });
