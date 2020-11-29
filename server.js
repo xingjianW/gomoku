@@ -12,7 +12,7 @@ server.listen(port, () => {
 //app.use(express.static(__dirname + '/public/'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/mi_test.html');
+  res.sendFile(__dirname + '/gomoku.html');
 });
 
 io.on('connection', (socket) => {
