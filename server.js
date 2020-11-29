@@ -40,16 +40,19 @@ io.on('connection', (socket) => {
 
   socket.on('joinRoom',(data) =>{
     var join=false;
+    var color=null;
     if(rooms.indexOf(data.roomNum)==-1){
       rooms.push(data.roomNum);
       room_people.push(1);
       join=true;
+      color="black";
     }
     else{
       var index=rooms.indexOf(data.roomNum);
       if(room_people[index]==1){
         room_people[index]=2;
         join=true;
+        color="white";
       }
       else{
         join=false;
@@ -57,7 +60,7 @@ io.on('connection', (socket) => {
     }
     io.emit('assignRoom',{
       join: join,
-      room_people: room_people[rooms.indexOf(data.roomNum)],
+      color: color,
     });
   });
 

@@ -99,14 +99,12 @@
                     document.getElementById("joinNote").innerHTML="Join failed, cannot join a full room.";
                 }
                 else{
-                    if(data.room_people==1){
+                    if(data.color=="black"){
                         color="black";
                         document.getElementById("joinNote").innerHTML="Joined successfully, waiting for the second player.";
                     }
                     else{
-                        if(color==null){
-                            color="white";
-                        }
+                        color="white";
                         document.getElementById("joinNote").innerHTML="Joined successfully, the game starts."
                         start=true;
                     }
