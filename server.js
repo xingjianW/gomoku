@@ -15,12 +15,17 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/gomoku.html');
 });
 
+//var sockets=[];
+var rooms=[];
+var room_people=[];
 io.on('connection', (socket) => {
   console.log('client connected');
+  // if(sockets.indexOf(socket)==-1){
+  //   sockets.push(socket);
+  // }
 
   let elems = [];
-  var rooms=[];
-  var room_people=[];
+  
 
   // elems.forEach((item) => {
   //   io.emit('clk', item);
