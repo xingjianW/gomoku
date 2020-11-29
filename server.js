@@ -15,14 +15,14 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/gomoku.html');
 });
 
-//var sockets=[];
+var sockets=[];
 var rooms=[];
 var room_people=[];
 io.on('connection', (socket) => {
   console.log('client connected');
-  // if(sockets.indexOf(socket)==-1){
-  //   sockets.push(socket);
-  // }
+  if(sockets.indexOf(socket)==-1){
+    sockets.push(socket);
+  }
 
   let elems = [];
   
@@ -58,6 +58,10 @@ io.on('connection', (socket) => {
         room_people[index]=2;
         join=true;
         color="white";
+        sockets[0].emit('assignRoom',{
+          join: join,
+          color: "black",
+        });
       }
       else{
         join=false;
