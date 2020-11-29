@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const assert = require('assert');
 const io = require('socket.io')(server);
-const port = 5000;
+const port = process.env.PORT ||5000;
 
 server.listen(port, () => {
   console.log(`Application running at "http://localhost:${port}/"`);
