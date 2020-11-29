@@ -180,7 +180,7 @@
                                 return true;
                             }
                         } else {
-                            console.log("1 "+color+", count: "+count);
+                            //console.log("1 "+color+", count: "+count);
                             count = 0;
                             break;
                         }
@@ -206,7 +206,6 @@
                 //     }
                 // }
                 // judge if the vertical connect 5 or not
-                count=-1;
                 for (var i = 4; i >= 0; i--) {
                     for (var j = 0; j <= 4; j++) {
                         var abscissa = x;
@@ -218,6 +217,7 @@
                             break;
                         if (map[abscissa][ordinate] == color) {
                             count++;
+                            console.log(abscissa, ordinate, count);
                             if (count >= 5) {
                                 //alert("The " + color + " player won the game");
                                 return true;
@@ -248,7 +248,7 @@
                                 return true;
                             }
                         } else {
-                            console.log("3"+color+", count: "+count);
+                            //console.log("3"+color+", count: "+count);
                             count = 0;
                             break;
                         }
@@ -275,7 +275,7 @@
                             }
 
                         } else {
-                            console.log("4"+color+", count: "+count);
+                            //console.log("4"+color+", count: "+count);
                             count = 0;
                             break;
                         }
