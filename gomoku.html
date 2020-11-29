@@ -78,8 +78,7 @@
             var start=false;
             var count=0;    //Number of chess pieces connected together
             var getStone = document.getElementById("board");
-            var ctx = getStone.getContext("2d");
-            var changeColor = 0;    // use this to count the step and change color;
+            var ctx = getStone.getContext("2d");;
             //biuld a array to store stone and if it = 1, means it's has stone
             var map = [];
             for(var i = 0; i < 15; i++){
@@ -186,25 +185,7 @@
                         }
                     }
                 }
-                // for(var i=0;i<9;i++){
-                //     var cx=x-4+i;
-                //     if (cx < 0)
-                //         continue;
-                //     if (cx > 14)
-                //         break;
-                //     console.log("i= "+i+", "+cx+y+map[cx][y]);
-                //     if(map[cx][y]==color){
-                //         count++;
-                //         console.log(cx, y, count);
-                //         if(count>=5){
-                //             return true;
-                //         }
-                //     }
-                //     else{
-                //         console.log(color+", count: "+count);
-                //         count=0;
-                //     }
-                // }
+
                 // judge if the vertical connect 5 or not
                 for (var i = 4; i >= 0; i--) {
                     for (var j = 0; j <= 4; j++) {
@@ -298,6 +279,7 @@
             });
             socket.on('win', function(data){
                 window.alert("The " + data.color + " player won the game");
+                location.reload();
             })
             /*
             function playRule(){
