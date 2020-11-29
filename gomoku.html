@@ -28,10 +28,9 @@
         <canvas id="board" width="600px" height="600px">  
         </canvas>
         <div>
-            <button id="regret">Regret</button>
-            <button id="chessAgain">Again</button>
-            <button id="exit">Exit</button>
-            <button id="getConnection">connection</button>	
+            <p id="joinNote">Enter a room number to join.</p>
+            <input type="text" id="roomNum">
+            <button id="joinRoom" onclick="joinRoom()">Join!</button>
         </div>
         <script>
             const socket=io.connect('http://localhost:5000');
@@ -74,6 +73,9 @@
             checkerboard();
             Background();
             // stone; include color and click event;
+			var curTurn = 'black';
+            var color = null;
+            var start=false;
             var getStone = document.getElementById("board");
             var ctx = getStone.getContext("2d");
             var changeColor = 0;    // use this to count the step and change color;
@@ -86,6 +88,30 @@
                 }
                 //console.log('test');
             }
+            function joinRoom(){
+                var roomNum=document.getElementById("roomNum").value;
+                socket.emit('joinRoom', {
+                        roomNum: roomNum,
+                    });
+            }
+            socket.on('assignRoom',(data)=>{
+                if(data.join==false){
+                    document.getElementById("joinNote").innerHTML="Join failed, cannot join a full room.";
+                }
+                else{
+                    if(data.room_people==1){
+                        color="black";
+                        document.getElementById("joinNote").innerHTML="Joined successfully, waiting for the second player.";
+                    }
+                    else{
+                        if(color==null){
+                            color="white";
+                        }
+                        document.getElementById("joinNote").innerHTML="Joined successfully, the game starts."
+                        start=true;
+                    }
+                }
+            })
             // drwa stone and fill color;
             function drawStone(x,y,color){
                 //var color;
@@ -99,26 +125,35 @@
             }
             // click event, and avoid put a stone on same position
             getStone.onclick=function(e){
-                //console.log('e/test');
-                var x =(e.offsetX/40)|0;
-                var y = (e.offsetY/40)|0;
-                // ---------
-                if(map[x][y] == 0){
-                    if(changeColor%2 == 0){
-                        drawStone(x,y,'black'); 
-                        map[x][y]= 1;
-                    } else {
-                        drawStone(x,y,'white'); 
-                        map[x][y]= 2;
+                if(start==true){
+                    if(curTurn==color){
+                        var x =(e.offsetX/40)|0;
+                        var y = (e.offsetY/40)|0;
+                        // ---------
+                        if(map[x][y] == 0){
+                            ctemp=curTurn;
+                            drawStone(x,y,color);
+                            if(color=="black"){
+                                map[x][y]= 1;
+                                curTurn="white";
+                            }
+                            else{
+                                map[x][y]=2;
+                                curTurn="black";
+                            }
+                            socket.emit('clk', {
+                                pi: x,
+                                pj: y,
+                                color: ctemp,
+                            });
+                        }
                     }
-                    //judgwin();
-                    
-                    changeColor++;
-                    socket.emit('clk', {
-                        pi: x,
-                        pj: y,
-                        color: changeColor--,
-                    });
+                    else{
+                        window.alert("It's not your turn!");
+                    }
+                }
+                else{
+                    window.alert("Game not start. Enter room number to create or join a room.");
                 }
             }
             function judgwin(x,y,color){
@@ -134,14 +169,15 @@
                 console.log(count);
             }
             socket.on('clk', function (data) {
-                    if(data.color%2 == 0){
+                    if(data.color == "black"){
                         drawStone(data.pi,data.pj,'black'); 
                         map[data.pi][data.pj]= 1;
+                        curTurn="white";
                     } else {
                         drawStone(data.pi,data.pj,'white'); 
                         map[data.pi][data.pj]= 2;
+                        curTurn="black";
                     }
-                    changeColor++;
             });
             /*
             function playRule(){
