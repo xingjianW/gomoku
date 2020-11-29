@@ -163,48 +163,48 @@
             }
             function judgwin(x,y,color){
                 // judge if the horizontal connect 5 or not
-                // for (var i = 4; i >= 0; i--) {
-                //     for (var j = 0; j <= 4; j++) {
-                //         var abscissa = ((x - i) + j);
-                //         var ordinate = y;
-                //         // console.log(abscissa, ordinate, map[abscissa][ordinate] == color)
-                //         if (abscissa < 0)
-                //             break;
-                //         if (abscissa > 14)
-                //             break;
-                //         if (map[abscissa][ordinate] == color) {
-                //             count++
-                //             console.log(abscissa, ordinate, count);
-                //             if (count >= 5) {
-                //                 ///alert("The " + color + " player won the Game!");
-                //                 return true;
-                //             }
-                //         } else {
-                //             console.log(color+", count: "+count);
-                //             count = 0;
-                //             break;
-                //         }
-                //     }
-                // }
-                for(var i=0;i<9;i++){
-                    var cx=x-4+i;
-                    if (cx < 0)
-                        continue;
-                    if (cx > 14)
-                        break;
-                    console.log("i= "+i+", "+cx+y+map[cx][y]);
-                    if(map[cx][y]==color){
-                        count++;
-                        console.log(cx, y, count);
-                        if(count>=5){
-                            return true;
+                for (var i = 4; i >= 0; i--) {
+                    for (var j = 0; j <= 4; j++) {
+                        var abscissa = ((x - i) + j);
+                        var ordinate = y;
+                        // console.log(abscissa, ordinate, map[abscissa][ordinate] == color)
+                        if (abscissa < 0)
+                            break;
+                        if (abscissa > 14)
+                            break;
+                        if (map[abscissa][ordinate] == color) {
+                            count++
+                            console.log(abscissa, ordinate, count);
+                            if (count >= 5) {
+                                ///alert("The " + color + " player won the Game!");
+                                return true;
+                            }
+                        } else {
+                            console.log(color+", count: "+count);
+                            count = 0;
+                            break;
                         }
                     }
-                    else{
-                        console.log(color+", count: "+count);
-                        count=0;
-                    }
                 }
+                // for(var i=0;i<9;i++){
+                //     var cx=x-4+i;
+                //     if (cx < 0)
+                //         continue;
+                //     if (cx > 14)
+                //         break;
+                //     console.log("i= "+i+", "+cx+y+map[cx][y]);
+                //     if(map[cx][y]==color){
+                //         count++;
+                //         console.log(cx, y, count);
+                //         if(count>=5){
+                //             return true;
+                //         }
+                //     }
+                //     else{
+                //         console.log(color+", count: "+count);
+                //         count=0;
+                //     }
+                // }
                 // judge if the vertical connect 5 or not
                 for (var i = 4; i >= 0; i--) {
                     for (var j = 0; j <= 4; j++) {
