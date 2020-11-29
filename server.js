@@ -82,6 +82,11 @@ io.on('connection', (socket) => {
       }
     }
   });
+  socket.on('win',(data)=>{
+    io.emit('win',{
+      color: data.color,
+    })
+  })
 
   socket.on('disconnect', () => {
     console.log('client disconnected');
