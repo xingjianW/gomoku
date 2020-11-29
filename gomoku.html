@@ -174,13 +174,13 @@
                             break;
                         if (map[abscissa][ordinate] == color) {
                             count++
-                            console.log(abscissa, ordinate, count);
+                            //console.log(abscissa, ordinate, count);
                             if (count >= 5) {
                                 ///alert("The " + color + " player won the Game!");
                                 return true;
                             }
                         } else {
-                            console.log(color+", count: "+count);
+                            console.log("1 "+color+", count: "+count);
                             count = 0;
                             break;
                         }
@@ -222,7 +222,7 @@
                                 return true;
                             }
                         } else {
-                            //console.log(color+", count: "+count);
+                            console.log("2"+color+", count: "+count);
                             count = 0;
                             break;
                         }
@@ -247,7 +247,7 @@
                                 return true;
                             }
                         } else {
-                            //console.log(color+", count: "+count);
+                            console.log("3"+color+", count: "+count);
                             count = 0;
                             break;
                         }
@@ -274,7 +274,7 @@
                             }
 
                         } else {
-                            //console.log(color+", count: "+count);
+                            console.log("4"+color+", count: "+count);
                             count = 0;
                             break;
                         }
